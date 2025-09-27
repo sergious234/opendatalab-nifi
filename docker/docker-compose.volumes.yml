@@ -61,3 +61,10 @@ volumes:
       type: 'none'
       o: 'bind'
       device: "${MONGO_VOLUMES_DIR}/mongodbdata"
+
+  trinodb_data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: "${TRINODB_NIFI_VOLUMES_DIR}/trinodata"

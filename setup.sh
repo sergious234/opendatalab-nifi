@@ -47,6 +47,14 @@ export MARIADB_PORT=3306
 export MARIADB_ROOT_PASSWORD=ctsBtRBKHRAx69EqUghvvgEvjnaLjFEB
 export MARIADB_VOLUMES_DIR="../data/mariadb"
 
+
+# trinodb
+export TRINODB_IMAGE_NAME=trinodb/trino
+export TRINODB_ACTIVE_BRANCH="476"
+export TRINODB_NAME=trinodb-opendatalab2-uhu-es
+export TRINODB_ROOT_PASSWORD=root
+export TRINODB_NIFI_VOLUMES_DIR=../data/trino
+
 # phpmyadmin
 export PM_IMAGE_NAME=phpmyadmin/phpmyadmin
 export PM_ACTIVE_BRANCH="5.1"
@@ -231,6 +239,8 @@ create_volumns() {
    mkdir -p "$script_dir"/data/nifi/logs
    mkdir -p "$script_dir"/data/nifi/provenance
    mkdir -p "$script_dir"/data/mariadb
+	 # TrinoDB
+   mkdir -p "$script_dir"/data/trinodb
    mkdir -p "$script_dir"/data/mongo
 }
 

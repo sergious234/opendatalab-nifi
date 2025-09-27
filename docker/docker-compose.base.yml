@@ -1,7 +1,6 @@
 version: "3.3"
 
 services:
-
   traefik:
     image: "${TRAEFIK_IMAGE_NAME}:${TRAEFIK_ACTIVE_BRANCH}"
     hostname: "${TRAEFIK_NAME}"
@@ -63,6 +62,16 @@ services:
       - nifi-provenance:/opt/nifi/nifi2-current/provenance_repository
       - nifi-logs:/opt/nifi/nifi2-current/logs
       - nifi-data:/opt/nifi/nifi2-current/data
+
+
+  trinodb:
+    image: ${TRINODB_IMAGE_NAME}:${TRINODB_ACTIVE_BRANCH}
+    hostname: ${TRINODB_NAME}
+    restart: always
+    environment:
+      TRINO_ROOT_PASSWORD: ${TRINODB_ROOT_PASSWORD}
+    volumes:
+      - trinodb_data:/var/lib/trino
 
   mariadb:
     image: ${MARIADB_IMAGE_NAME}:${MARIADB_ACTIVE_BRANCH}
@@ -126,6 +135,7 @@ services:
 networks:
     default:
         name: "${COMPOSE_NETWORKNAME}"
+
 volumes:
   nifi-conf:
     driver: local
@@ -189,3 +199,10 @@ volumes:
       type: 'none'
       o: 'bind'
       device: "${MONGO_VOLUMES_DIR}/mongodbdata"
+
+  trinodb_data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: "${TRINODB_NIFI_VOLUMES_DIR}/trinodata"
