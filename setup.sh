@@ -239,12 +239,12 @@ create_volumns() {
    mkdir -p "$script_dir"/data/nifi/logs
    mkdir -p "$script_dir"/data/nifi/provenance
    mkdir -p "$script_dir"/data/mariadb
+   mkdir -p "$script_dir"/data/mariadb
+   mkdir -p "$script_dir"/data/extensions
 	 # TrinoDB
    mkdir -p "$script_dir"/data/trinodb
    mkdir -p "$script_dir"/data/mongo
 }
-
-
 
 
 show_help() {
