@@ -294,3 +294,23 @@ En este caso no se destruyen ni los volúmenes ni las redes creadas.
 
 
 
+# NIFI
+
+Controller Services:
+
+2025-12-17 22:17
+
+MongoDBControllerService
+- MongoURI: mongodb://mongodb:27017
+- Database User: root
+- Password: example
+
+Cambiar las rutas de los volumenes:
+/opt/nifi/nifi2-current > /opt/nifi/nifi-current
+
+Añadir 2 volumenes para librerias y scripts:
+- nifi-extensions:/opt/nifi/nifi-current/lib/ext
+- nifi-groovy:/opt/nifi/nifi-current/groovy
+
+Para ExecuteScript en nifi añadir al path:
+- /opt/nifi/nifi-current/lib/ext
