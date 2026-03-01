@@ -20,8 +20,8 @@ export COMPOSE_MOUNT_VOLUMES=1
 export TRAEFIK_IMAGE_NAME=traefik
 export TRAEFIK_ACTIVE_BRANCH="v3.0"
 export TRAEFIK_NAME="proxy.opendatalab2.uhu.es"
-export TRAEFIK_HTTP_PORT="80"
-export TRAEFIK_HTTPS_PORT="443"
+export TRAEFIK_HTTP_PORT="81"
+export TRAEFIK_HTTPS_PORT="444"
 export TRAEFIK_LOG_LEVEL="DEBUG"
 export TRAEFIK_ENABLE_DASHBOARD="true"
 
@@ -231,6 +231,7 @@ docker_connect() {
 
 create_volumns() {
   script_dir=$(realpath $(dirname "$0"))
+	# NiFi
    mkdir -p "$script_dir"/data/nifi/conf
    mkdir -p "$script_dir"/data/nifi/content
    mkdir -p "$script_dir"/data/nifi/data
@@ -238,11 +239,13 @@ create_volumns() {
    mkdir -p "$script_dir"/data/nifi/flowfile
    mkdir -p "$script_dir"/data/nifi/logs
    mkdir -p "$script_dir"/data/nifi/provenance
+   mkdir -p "$script_dir"/data/nifi/extensions
+   mkdir -p "$script_dir"/data/nifi/groovy
+	# MariaDB
    mkdir -p "$script_dir"/data/mariadb
-   mkdir -p "$script_dir"/data/mariadb
-   mkdir -p "$script_dir"/data/extensions
-	 # TrinoDB
+	# TrinoDB
    mkdir -p "$script_dir"/data/trinodb
+	# MongoDB
    mkdir -p "$script_dir"/data/mongo
 }
 
@@ -262,6 +265,9 @@ show_help() {
   exit 0
 }
 
+status() {
+	docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+}
 
 main() {
   local cmd=$1
@@ -298,6 +304,8 @@ main() {
     restart 
   elif [ "$cmd" = "help" ]; then
     restart
+  elif [ "$cmd" = "status" ]; then
+    status
   else
     print_err "Invalid command: ${cmd}"
     show_help
