@@ -1,8 +1,11 @@
 etc/traefik/certs/*
-!etc/traefik/certs//README.md
 .env
 docker/.env
 data/nifi/*
-!data/nifi/README.md
 data/traefik/*
+
+!etc/traefik/certs//README.md
+!data/nifi/README.md
 !data/traefik/README.md
+!data/nifi/extensions/
+!data/nifi/groovy/
