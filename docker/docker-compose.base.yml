@@ -1,7 +1,6 @@
 version: "3.3"
 
 services:
-
   traefik:
     image: "${TRAEFIK_IMAGE_NAME}:${TRAEFIK_ACTIVE_BRANCH}"
     hostname: "${TRAEFIK_NAME}"
@@ -65,6 +64,7 @@ services:
       - nifi-data:/opt/nifi/nifi-current/data
       - nifi-extensions:/opt/nifi/nifi-current/lib/ext
       - nifi-groovy:/opt/nifi/nifi-current/groovy
+      - nifi-raw-json:/mnt/raw_sergio
 
   mariadb:
     image: ${MARIADB_IMAGE_NAME}:${MARIADB_ACTIVE_BRANCH}
@@ -97,13 +97,16 @@ services:
 
   mongodb:
     image: "${MONGO_IMAGE_NAME}:${MONGO_ACTIVE_BRANCH}"
-    container_name: "${MONGO_NAME}"
+    hostname: "${MONGO_NAME}"
+    # container_name: "${MONGO_NAME}"
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME}"   # Usuario administrador para MongoDB
       MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}" # Contraseña del usuario administrador
     volumes:
       - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
 
   mongo-express:
     image: "${ME_IMAGE_NAME}:${ME_ACTIVE_BRANCH}"
@@ -128,6 +131,7 @@ services:
 networks:
     default:
         name: "${COMPOSE_NETWORKNAME}"
+
 volumes:
   nifi-conf:
     driver: local
@@ -178,7 +182,6 @@ volumes:
       o: 'bind'
       device: "${NIFI_VOLUMES_DIR}/data"
 
-
   nifi-groovy:
     driver: local
     driver_opts:
@@ -192,6 +195,13 @@ volumes:
       type: 'none'
       o: 'bind'
       device: "${NIFI_VOLUMES_DIR}/extensions"
+
+  nifi-raw-json:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: "/mnt/disco8TB/RAW_SERGIO"
 
   mariadb_data:
     driver: local
