@@ -66,7 +66,8 @@ export MONGO_ACTIVE_BRANCH="4.4"
 export MONGO_NAME=mongo.opendatalab2.uhu.es
 export MONGO_INITDB_ROOT_USERNAME=root   # Usuario administrador para MongoDB
 export MONGO_INITDB_ROOT_PASSWORD=example # Contraseña del usuario administrador
-export MONGO_VOLUMES_DIR=../data/mongo
+# export MONGO_VOLUMES_DIR=../data/mongo
+export MONGO_VOLUMES_DIR=/mnt/disco8TB
 
 # mongo-express
 export ME_IMAGE_NAME=mongo-express
