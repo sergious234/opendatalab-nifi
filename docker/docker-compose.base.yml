@@ -55,13 +55,14 @@ services:
       - "traefik.http.services.nifi.loadbalancer.server.port=${NIFI_WEB_HTTPS_PORT}"
       - "traefik.docker.network=${COMPOSE_NETWORKNAME}"
     volumes:
-      - nifi-conf:/opt/nifi/nifi-current/conf
-      - nifi-content:/opt/nifi/nifi-current/content_repository
-      - nifi-db:/opt/nifi/nifi-current/database_repository
-      - nifi-flowfile:/opt/nifi/nifi-current/flowfile_repository
-      - nifi-provenance:/opt/nifi/nifi-current/provenance_repository
-      - nifi-logs:/opt/nifi/nifi-current/logs
-      - nifi-data:/opt/nifi/nifi-current/data
+      - nifi-conf-local:/opt/nifi/nifi-current/conf
+      - nifi-content-local:/opt/nifi/nifi-current/content_repository
+      - nifi-db-local:/opt/nifi/nifi-current/database_repository
+      - nifi-flowfile-local:/opt/nifi/nifi-current/flowfile_repository
+      - nifi-provenance-local:/opt/nifi/nifi-current/provenance_repository
+      - nifi-logs-local:/opt/nifi/nifi-current/logs
+      - nifi-data-local:/opt/nifi/nifi-current/data
+      # Libs y scripts groovy
       - nifi-extensions:/opt/nifi/nifi-current/lib/ext
       - nifi-groovy:/opt/nifi/nifi-current/groovy
       - nifi-raw-json:/mnt/raw_sergio
@@ -104,7 +105,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME}"   # Usuario administrador para MongoDB
       MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}" # Contraseña del usuario administrador
     volumes:
-      - mongodb_data:/data/db
+      - mongodb_data_disco_8tb:/data/db
     ports:
       - "27017:27017"
 
@@ -182,6 +183,58 @@ volumes:
       o: 'bind'
       device: "${NIFI_VOLUMES_DIR}/data"
 
+  # VERSION HOME LOCAL DE NIFI
+  
+  nifi-conf-local:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: "${NIFI_VOLUMES_DIR}/conf"
+
+  nifi-content-local:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: "${NIFI_VOLUMES_DIR}/content"
+
+  nifi-db-local:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: "${NIFI_VOLUMES_DIR}/db"
+
+  nifi-flowfile-local:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: "${NIFI_VOLUMES_DIR}/flowfile"
+
+  nifi-provenance-local:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: "${NIFI_VOLUMES_DIR}/provenance"
+
+  nifi-logs-local:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: "${NIFI_VOLUMES_DIR}/logs"
+
+  nifi-data-local:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: "${NIFI_VOLUMES_DIR}/data"
+
+
   nifi-groovy:
     driver: local
     driver_opts:
@@ -210,9 +263,16 @@ volumes:
       o: 'bind'
       device: "${MARIADB_VOLUMES_DIR}/mysqldata"
 
-  mongodb_data:
+  #mongodb_data2:
+  #  driver: local
+  #  driver_opts:
+  #    type: 'none'
+  #    o: 'bind'
+  #    device: "${MONGO_VOLUMES_DIR}/mongodbdata"
+
+  mongodb_data_disco_8tb:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: "${MONGO_VOLUMES_DIR}/mongodbdata"
+      device: "${MONGO_VOLUMES_DIR}/mongodbdata/"
